@@ -1,0 +1,4 @@
+[submodule "orbital-js"]
+	path = orbital-js
+	url = https://github.com/orbitaljs/orbital-js.git
+	branch = master
