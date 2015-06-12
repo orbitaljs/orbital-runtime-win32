@@ -52,8 +52,9 @@ mv jdk/jre package/java
 
 cd package/java
 
-# We want the javaw executable
-find bin -type f -not -name 'javaw.exe' | xargs rm
+# We want the java executable
+find bin -type f -not -name 'java.exe' | xargs rm
+find . -type d | xargs rmdir 2> /dev/null || true
 
 # Remove the javaws/plugin cruft 
 rm -rf lib/deploy/
@@ -66,15 +67,12 @@ rm -rf lib/security/javaws.policy
 
 cd $BUILD_DIR
 
-# echo Installing native code
+echo Installing native code
 mkdir -p package/lib/node
 
-cd $DIR/orbital
+cd $DIR/orbital-js/orbital
 
-# export npm_config_disturl=https://atom.io/download/atom-shell
-# export npm_config_target=0.25.0
-# export npm_config_arch=x64
 npm install >> $BUILD_DIR/log
 
 cd $DIR
-cp -aR orbital $BUILD_DIR/package/lib/node/orbital
+cp -aR orbital-js/orbital $BUILD_DIR/package/lib/node/orbital
