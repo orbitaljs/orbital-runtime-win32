@@ -19,11 +19,14 @@ else
 		http://download.oracle.com/otn-pub/java/jdk/8u45-b15/jdk-8u45-windows-i586.exe
 fi
 
-if [ -f _dl/electron-v0.28.0-win32-ia32.zip ];
+ELECTRON_VERSION=0.31.1
+ELECTRON_FILE=electron-v${ELECTRON_VERSION}-win32-ia32.zip
+
+if [ -f _dl/${ELECTRON_FILE} ];
 then
 	echo "Electron Shell already downloaded, skipping"
 else
-	wget -P _dl https://github.com/atom/electron/releases/download/v0.28.0/electron-v0.28.0-win32-ia32.zip
+	wget -P _dl https://github.com/atom/electron/releases/download/v${ELECTRON_VERSION}/${ELECTRON_FILE}
 fi
 
 cd _tmp
@@ -38,6 +41,9 @@ echo Extracting outer exe
 echo Extracting tools.zip
 7z -y -ojdk x tools.zip >> log
 
+# Make the whole JDK writable
+chmod -R a+rw jdk
+
 echo
 echo ===================
 echo Extracting Electron
@@ -45,7 +51,7 @@ echo ===================
 echo
 
 echo Extracting Electron Shell
-7z -y -opackage/electron x ../_dl/electron*.zip >> log
+7z -y -opackage/electron x ../_dl/${ELECTRON_FILE} >> log
 
 echo Moving JRE
 mv jdk/jre package/java
